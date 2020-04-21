@@ -4,23 +4,23 @@ import { MEMB_INFO } from '../database/memb_info.entity';
 
 @Controller('user')
 export class UserController {
-	constructor(
-		private readonly userService: UserService
-	) { }
+    constructor(
+        private readonly userService: UserService
+    ) { }
 
-	@Get()
-	list(): Promise<MEMB_INFO[]> {
-		return this.userService.findAll();
-	}
+    @Get()
+    list(): Promise<MEMB_INFO[]> {
+        return this.userService.findAll();
+    }
 
-	@Get(':name')
-	single(@Param('name') name): Promise<MEMB_INFO> {
-		return this.userService.findOne(name);
-	}
+    @Get(':name')
+    single(@Param('name') name): Promise<MEMB_INFO> {
+        return this.userService.findOne(name);
+    }
 
-	@Post()
-	register(@Param() params) {
-		console.log('params', params);
-	}
+    @Post()
+    register(@Param() params) {
+        console.log('params', params);
+    }
 }
 
