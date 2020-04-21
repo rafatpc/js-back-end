@@ -7,17 +7,17 @@ import { UserService, UserRepository } from './user/user.service';
 import { UserModule } from './user/user.module';
 
 @Module({
-	imports: [
-		TypeOrmModule.forRoot(),
-		TypeOrmModule.forFeature([
-			UserRepository
-		])
-	],
-	controllers: [
-		UserController
-	],
-	providers: [
-		UserService
-	]
+    imports: [
+        TypeOrmModule.forRoot(),
+        TypeOrmModule.forFeature([
+            UserRepository
+        ])
+    ],
+    controllers: [
+        UserController
+    ],
+    providers: [
+        UserService
+    ]
 })
 export class AppModule { }

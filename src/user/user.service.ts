@@ -8,16 +8,16 @@ export class UserRepository extends Repository<MEMB_INFO> { }
 
 @Injectable()
 export class UserService {
-	constructor(
-		@InjectRepository(UserRepository)
-		private usersRepository: Repository<MEMB_INFO>,
-	) { }
+    constructor(
+        @InjectRepository(UserRepository)
+        private usersRepository: Repository<MEMB_INFO>,
+    ) { }
 
-	findAll(): Promise<MEMB_INFO[]> {
-		return this.usersRepository.find();
-	}
+    findAll(): Promise<MEMB_INFO[]> {
+        return this.usersRepository.find();
+    }
 
-	findOne(memb___id: string): Promise<MEMB_INFO> {
-		return this.usersRepository.findOne(memb___id);
-	}
+    findOne(memb___id: string): Promise<MEMB_INFO> {
+        return this.usersRepository.findOne(memb___id);
+    }
 }
