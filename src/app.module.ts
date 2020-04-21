@@ -1,23 +1,11 @@
-import "reflect-metadata";
-
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from './user/user.controller';
-import { UserService, UserRepository } from './user/user.service';
+// import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(),
-		TypeOrmModule.forFeature([
-			UserRepository
-		])
+		UserModule,
+		// TypeOrmModule.forRoot(),
 	],
-	controllers: [
-		UserController
-	],
-	providers: [
-		UserService
-	]
 })
 export class AppModule { }
