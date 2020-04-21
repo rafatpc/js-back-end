@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Put, HttpCode, Param, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { MEMB_INFO } from '../database/memb_info.entity';
 
@@ -18,9 +18,15 @@ export class UserController {
         return this.userService.findOne(name);
     }
 
-    @Post()
-    register(@Param() params) {
-        console.log('params', params);
+    @Put()
+    @HttpCode(201)
+    async register(@Body() params): Promise<MEMB_INFO> {
+        const {
+            username,
+            password,
+            email
+        } = params;
+
+        return await this.userService.create(username, password, email);
     }
 }
-
