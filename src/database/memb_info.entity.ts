@@ -1,40 +1,39 @@
-import { Entity, PrimaryColumn, Column, BeforeInsert } from "typeorm";
-import { identity } from "rxjs";
+import { Entity, PrimaryColumn, Column, BeforeInsert } from 'typeorm';
 
 @Entity()
 export class MEMB_INFO {
     @Column({ type: 'int', generated: 'increment' })
     memb_guid: number
 
-    @PrimaryColumn({ type: 'nvarchar' })
+    @PrimaryColumn({ type: 'nvarchar', length: 10 })
     memb___id: string;
 
-    @Column({ type: 'nvarchar' })
+    @Column({ type: 'nvarchar', length: 10, select: false })
     memb__pwd: string;
 
-    @Column({ type: 'nvarchar', nullable: true })
+    @Column({ type: 'nvarchar', length: 50 })
     mail_addr: string;
 
-    @Column({ type: 'nvarchar' })
+    @Column({ type: 'nvarchar', length: 10 })
     memb_name: string;
 
-    @Column({ type: 'nvarchar' })
+    @Column({ type: 'nvarchar', length: 13 })
     sno__numb: string;
 
     @Column({ type: 'nvarchar', length: 1 })
-    bloc_code: string
+    bloc_code: string;
 
     @Column({ type: 'nvarchar', length: 1 })
-    ctl1_code: string
+    ctl1_code: string;
 
     @Column({ type: 'int' })
-    IsVip: number
+    IsVip: number;
 
     @Column({ type: 'int' })
-    VipExpirationTime: number
+    VipExpirationTime: number;
 
     private readonly defaults = {
-        sno__numb: '11111111111',
+        sno__numb: '1111111111111',
         bloc_code: '0',
         ctl1_code: '1',
         IsVip: 0,
