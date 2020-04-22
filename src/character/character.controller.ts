@@ -10,8 +10,6 @@ export class CharacterController {
 
     @Get(':name')
     async get(@Param('name') name): Promise<Character> {
-        const character = await this.characterService.findOne(name);
-
         return await this.characterService.findOne(name, [
             'Name',
             'cLevel',

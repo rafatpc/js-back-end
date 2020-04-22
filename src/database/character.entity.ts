@@ -1,4 +1,5 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Inventory } from '../models/inventory.model'
 
 @Entity()
 export class Character {
@@ -38,8 +39,17 @@ export class Character {
     @Column({ type: 'smallint' })
     Energy: number;
 
-    @Column({ type: 'varbinary', length: 760 })
-    Inventory: Buffer;
+    @Column({
+        type: 'varbinary',
+        length: 760,
+        transformer: {
+            to: items => items,
+            from: items => {
+                return new Inventory(items);
+            }
+        }
+    })
+    Inventory: Inventory;
 
     @Column({ type: 'varbinary', length: 60 })
     MagicList: Buffer;
