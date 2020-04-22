@@ -32,18 +32,18 @@ export class MEMB_INFO {
     @Column({ type: 'int' })
     VipExpirationTime: number;
 
-    private readonly defaults = {
-        sno__numb: '1111111111111',
-        bloc_code: '0',
-        ctl1_code: '1',
-        IsVip: 0,
-        VipExpirationTime: 0
-    };
-
     @BeforeInsert()
     beforeInsertActions() {
-        Object.keys(this.defaults).forEach(column => {
-            this[column] = this[column] || this.defaults[column];
+        const defaults = {
+            sno__numb: '1111111111111',
+            bloc_code: '0',
+            ctl1_code: '1',
+            IsVip: 0,
+            VipExpirationTime: 0
+        };
+
+        Object.keys(defaults).forEach(column => {
+            this[column] = this[column] || defaults[column];
         });
 
         this.memb_name = this.memb___id;

@@ -1,8 +1,14 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { JWT_SECRET, JWT_MAX_AGE } from '../../config';
+
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository';
 import { MEMB_INFO } from '../../database/memb_info.entity'
+import { LoginDto } from './dto/login.dto';
+import { CreateDto } from './dto/create.dto';
+import { SearchDto } from './dto/search.dto';
 
 @Injectable()
 export class UserService {
@@ -15,12 +21,22 @@ export class UserService {
         return this.usersRepository.find();
     }
 
-    findOne(memb___id: string): Promise<MEMB_INFO> {
-        return this.usersRepository.findOne(memb___id);
+    findOne({ username: memb___id, email: mail_addr }: Partial<SearchDto>): Promise<MEMB_INFO> {
+        const where = [
+            { memb___id }
+        ];
+
+        if (mail_addr) {
+            where.push({ mail_addr } as any);
+        }
+
+        return this.usersRepository.findOne({ where });
     }
 
-    async create(memb___id: string, memb__pwd: string, mail_addr: string): Promise<MEMB_INFO> {
-        if (await this.exists(memb___id, mail_addr)) {
+    async create({ username: memb___id, password: memb__pwd, email: mail_addr }: CreateDto): Promise<MEMB_INFO> {
+        const existingUser = await this.findOne({ username: memb___id, email: mail_addr } as SearchDto);
+
+        if (existingUser) {
             throw new HttpException('Username or email are already taken.', 409)
         }
 
@@ -33,15 +49,20 @@ export class UserService {
         return await this.usersRepository.save(account);
     }
 
-    async exists(memb___id: string, mail_addr?: string): Promise<boolean> {
-        const where = [{ memb___id }];
+    async login({ username: memb___id, password: memb__pwd }: LoginDto): Promise<MEMB_INFO> {
+        const user = await this.usersRepository.findOne({ memb___id, memb__pwd });
 
-        if (mail_addr) {
-            where.push({ mail_addr } as any);
+        if (!user) {
+            throw new HttpException('Invalid username or password', HttpStatus.UNAUTHORIZED);
         }
 
-        const matches = await this.usersRepository.find({ where });
-        return matches.length > 0;
+        return user;
+    }
+
+    generateToken({ username }: LoginDto) {
+        return jwt.sign({
+            username: username
+        }, JWT_SECRET, { expiresIn: JWT_MAX_AGE });
     }
 }
 
