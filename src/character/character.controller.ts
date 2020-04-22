@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { Character } from 'src/database/character.entity';
 import { CharacterService } from './character.service';
 
 @Controller('character')
@@ -8,7 +9,7 @@ export class CharacterController {
     ) { }
 
     @Get(':name')
-    get(@Param('name') name) {
-        return this.characterService.findOne(name);
+    async get(@Param('name') name): Promise<Character> {
+        return await this.characterService.findOne(name);
     }
 }

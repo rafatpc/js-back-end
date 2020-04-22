@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { Guild } from 'src/database/guild.entity';
 import { GuildService } from './guild.service';
 
 @Controller('guild')
@@ -8,18 +9,7 @@ export class GuildController {
     ) { }
 
     @Get(':name')
-    async get(@Param('name') name) {
-        const guild = await this.guildService.findOne(name);
-        const mark = guild.G_Mark;
-        // const hexMark = Buffer.from( someNumber.toString(16), 'hex' ); ;
-
-        // console.log('<><>', mark.toString('hex'));
-
-        // console.log(new Uint8Array(mark));
-
-
-
-
-        return guild.G_Mark;
+    async get(@Param('name') name): Promise<Guild> {
+        return await this.guildService.findOne(name);
     }
 }
