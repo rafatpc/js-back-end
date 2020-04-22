@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany, JoinColumn } from 'typeorm';
+import { GuildMember } from './guild-member.entity';
 
 @Entity()
 export class Guild {
@@ -37,4 +38,8 @@ export class Guild {
 
     @Column({ type: 'nvarchar', length: 60 })
     G_Notice: string;
+
+    @OneToMany(() => GuildMember, member => member.G_Name)
+    @JoinColumn({ name: 'G_Name' })
+    G_Members: GuildMember[]
 }

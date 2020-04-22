@@ -34,17 +34,14 @@ export class UserService {
     }
 
     async exists(memb___id: string, mail_addr?: string): Promise<boolean> {
-        const where = [
-            { memb___id }
-        ];
+        const where = [{ memb___id }];
 
         if (mail_addr) {
             where.push({ mail_addr } as any);
         }
 
-        return this.usersRepository.find({ where }).then(matches => {
-            return matches.length > 0;
-        });
+        const matches = await this.usersRepository.find({ where });
+        return matches.length > 0;
     }
 }
 

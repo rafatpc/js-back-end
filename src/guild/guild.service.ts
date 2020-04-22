@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GuildRepository } from './guild.repository';
 import { Guild } from '../database/guild.entity'
+import { GuildMember } from 'src/database/guild-member.entity';
 
 @Injectable()
 export class GuildService {
@@ -15,14 +16,15 @@ export class GuildService {
         return this.guildRepository.find();
     }
 
-    findOne(name: string): Promise<Guild> {
-        return this.guildRepository.findOne(name);
+    findOne(name: string, select?: Array<string>): Promise<Guild> {
+        return this.guildRepository.findOne(name, {
+            select: select as any[],
+            relations: ['G_Members']
+        });
     }
 
     async exists(name: string): Promise<boolean> {
-        return this.findOne(name).then(match => {
-            return !!match;
-        });
+        return !!(await this.findOne(name));
     }
 }
 
