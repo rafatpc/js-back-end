@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GuildRepository } from './guild.repository';
-import { Guild } from '../database/guild.entity'
+import { Guild } from '../../database/guild.entity'
 import { GuildMember } from 'src/database/guild-member.entity';
 
 @Injectable()
