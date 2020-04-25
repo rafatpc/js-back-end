@@ -11,20 +11,10 @@ export class UserController {
         private readonly userService: UserService
     ) { }
 
-    @Get()
-    list(): Promise<MEMB_INFO[]> {
-        return this.userService.findAll();
-    }
-
-    @Get(':username')
-    single(@Param('username') username): Promise<MEMB_INFO> {
-        return this.userService.findOne({ username } as Partial<SearchDto>);
-    }
-
     @Put()
     @HttpCode(201)
-    async register(@Body() params: CreateDto): Promise<MEMB_INFO> {
-        return await this.userService.create(params);
+    register(@Body() params: CreateDto): Promise<MEMB_INFO> {
+        return this.userService.create(params);
     }
 
     @Post('login')
@@ -36,5 +26,12 @@ export class UserController {
             user,
             token
         };
+    }
+
+    @Post('verify')
+    @HttpCode(202)
+    verify() {
+        // Verification route is guarded by the Auth Middleware
+        // If the middleware verify the token successfuly, then the user is good to go!
     }
 }
