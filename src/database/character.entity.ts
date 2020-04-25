@@ -1,5 +1,6 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
+import { GuildMember } from './guild-member.entity';
 
 @Entity()
 export class Character {
@@ -128,4 +129,8 @@ export class Character {
 
     @Column({ type: 'int' })
     VipExpirationTime: number;
+
+    @OneToOne(() => GuildMember, { deferrable: 'INITIALLY DEFERRED' })
+    @JoinColumn({ name: 'Name' })
+    Guild: GuildMember
 }

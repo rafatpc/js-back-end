@@ -8,16 +8,17 @@ import { Character } from '../../database/character.entity';
 export class CharacterService {
     constructor(
         @InjectRepository(CharacterRepository)
-        private usersRepository: Repository<Character>
+        private characterRepository: Repository<Character>
     ) { }
 
     findAll(): Promise<Character[]> {
-        return this.usersRepository.find();
+        return this.characterRepository.find();
     }
 
     findOne(name: string, select?: Array<string>): Promise<Character> {
-        return this.usersRepository.findOne(name, {
-            select: select as any[]
+        return this.characterRepository.findOne(name, {
+            select: select as any[],
+            relations: ['Guild']
         });
     }
 
