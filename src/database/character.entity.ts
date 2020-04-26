@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
 import { GuildMember } from './guild-member.entity';
+import { from } from 'rxjs';
 
 @Entity()
 export class Character {
@@ -20,6 +21,9 @@ export class Character {
     GrandResets: number;
 
     @Column({ type: 'int' })
+    Honor: number;
+
+    @Column({ type: 'int' })
     LevelUpPoint: number;
 
     @Column({ type: 'tinyint' })
@@ -28,17 +32,20 @@ export class Character {
     @Column({ type: 'int' })
     Experience: number;
 
-    @Column({ type: 'smallint' })
+    @Column({ type: 'int' })
     Strength: number;
 
-    @Column({ type: 'smallint' })
+    @Column({ type: 'int' })
     Dexterity: number;
 
-    @Column({ type: 'smallint' })
+    @Column({ type: 'int' })
     Vitality: number;
 
-    @Column({ type: 'smallint' })
+    @Column({ type: 'int' })
     Energy: number;
+
+    @Column({ type: 'int' })
+    Leadership: number;
 
     @Column({
         type: 'varbinary',
@@ -102,33 +109,6 @@ export class Character {
 
     @Column({ type: 'varbinary', length: 50 })
     Quest: Buffer;
-
-    @Column({ type: 'int' })
-    IsMarried: number;
-
-    @Column({ type: 'nvarchar' })
-    MarryName: number;
-
-    @Column({ type: 'int' })
-    QuestNumber: number;
-
-    @Column({ type: 'int' })
-    QuestMonsters: number;
-
-    @Column({ type: 'int' })
-    QuestInCurse: number;
-
-    @Column({ type: 'int' })
-    BanPost: number;
-
-    @Column({ type: 'int' })
-    SkyEventWins: number;
-
-    @Column({ type: 'int' })
-    IsVip: number;
-
-    @Column({ type: 'int' })
-    VipExpirationTime: number;
 
     @OneToOne(() => GuildMember, { deferrable: 'INITIALLY DEFERRED' })
     @JoinColumn({ name: 'Name' })

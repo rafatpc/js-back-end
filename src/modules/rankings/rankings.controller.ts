@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Character } from 'src/database/character.entity';
 import { RankingsService } from './rankings.service';
+import { Character } from 'src/database/character.entity';
+import { OnlineCharacter } from 'src/types/rankings.types';
 
 @Controller('rankings')
 export class RankingsController {
@@ -9,7 +10,12 @@ export class RankingsController {
     ) { }
 
     @Get('characters')
-    async get(): Promise<Character[]> {
-        return await this.rankingsService.getCharactersRankings();
+    characters(): Promise<Character[]> {
+        return this.rankingsService.getCharactersRankings();
+    }
+
+    @Get('online')
+    online(): Promise<OnlineCharacter[]> {
+        return this.rankingsService.getOnlineCharacters();
     }
 }
