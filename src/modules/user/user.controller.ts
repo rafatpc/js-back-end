@@ -1,6 +1,6 @@
 import { Controller, Get, Put, HttpCode, Param, Body, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { MEMB_INFO } from '../../database/memb_info.entity';
+import { MEMB_INFO } from '../../database/memb-info.entity';
 import { LoginDto } from './dto/login.dto';
 import { CreateDto } from './dto/create.dto';
 import { SearchDto } from './dto/search.dto';

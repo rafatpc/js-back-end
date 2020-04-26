@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, Column, BeforeInsert } from 'typeorm';
 
-@Entity()
+@Entity('MEMB_INFO')
 export class MEMB_INFO {
     @Column({ type: 'int', generated: 'increment' })
     memb_guid: number
