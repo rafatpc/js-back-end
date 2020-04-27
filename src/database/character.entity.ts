@@ -1,7 +1,6 @@
 import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
 import { GuildMember } from './guild-member.entity';
-import { from } from 'rxjs';
 
 @Entity()
 export class Character {

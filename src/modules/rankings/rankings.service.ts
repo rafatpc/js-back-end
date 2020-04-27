@@ -43,6 +43,24 @@ export class RankingsService {
         });
     }
 
+    getGuildsRankings(): Promise<Guild[]> {
+        return this.guilds.find({
+            select: [
+                'G_Name',
+                'G_Master',
+                'G_Mark',
+                'G_Score',
+                'G_Type',
+                'G_Rival',
+                'G_Union'
+            ],
+            order: {
+                'G_Score': 'DESC'
+            },
+            relations: ['G_Members']
+        });
+    }
+
     getOnlineCharacters(): Promise<OnlineCharacter[]> {
         return this.status
             .createQueryBuilder('Stat')
