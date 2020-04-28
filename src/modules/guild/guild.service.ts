@@ -12,10 +12,6 @@ export class GuildService {
         private guildRepository: Repository<Guild>
     ) { }
 
-    findAll(): Promise<Guild[]> {
-        return this.guildRepository.find();
-    }
-
     findOne(name: string, select?: Array<string>): Promise<Guild> {
         return this.guildRepository.findOne(name, {
             select: select as any[],

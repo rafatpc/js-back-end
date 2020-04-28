@@ -9,8 +9,8 @@ export class GuildController {
     ) { }
 
     @Get(':name')
-    async get(@Param('name') name): Promise<Guild> {
-        return await this.guildService.findOne(name, [
+    get(@Param('name') name): Promise<Guild> {
+        return this.guildService.findOne(name, [
             'G_Name',
             'G_Master',
             'G_Score',
