@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
 import { GuildMember } from './guild-member.entity';
+import { MasterSkillTree } from './master-skill-tree.entity';
 
 @Entity()
 export class Character {
@@ -109,7 +110,11 @@ export class Character {
     @Column({ type: 'varbinary', length: 50 })
     Quest: Buffer;
 
-    @OneToOne(() => GuildMember, { deferrable: 'INITIALLY DEFERRED' })
+    @OneToOne(() => GuildMember)
     @JoinColumn({ name: 'Name' })
     Guild: GuildMember
+
+    @OneToOne(() => MasterSkillTree)
+    @JoinColumn({ name: 'Name' })
+    Master: MasterSkillTree
 }

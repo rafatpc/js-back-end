@@ -18,7 +18,7 @@ export class CharacterService {
     findOne(name: string, select?: Array<string>): Promise<Character> {
         return this.characterRepository.findOne(name, {
             select: select as any[],
-            relations: ['Guild']
+            relations: ['Guild', 'Master']
         });
     }
 

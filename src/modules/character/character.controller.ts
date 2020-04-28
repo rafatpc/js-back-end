@@ -9,8 +9,8 @@ export class CharacterController {
     ) { }
 
     @Get(':name')
-    async get(@Param('name') name): Promise<Character> {
-        return await this.characterService.findOne(name, [
+    get(@Param('name') name): Promise<Character> {
+        return this.characterService.findOne(name, [
             'Name',
             'cLevel',
             'Resets',
@@ -22,7 +22,7 @@ export class CharacterController {
     }
 
     @Get(':name/extended')
-    async extended(@Param('name') name): Promise<Character> {
-        return await this.characterService.findOne(name);
+    extended(@Param('name') name): Promise<Character> {
+        return this.characterService.findOne(name);
     }
 }

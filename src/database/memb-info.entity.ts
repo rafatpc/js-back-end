@@ -26,12 +26,6 @@ export class MEMB_INFO {
     @Column({ type: 'nvarchar', length: 1 })
     ctl1_code: string;
 
-    @Column({ type: 'int' })
-    IsVip: number;
-
-    @Column({ type: 'int' })
-    VipExpirationTime: number;
-
     @BeforeInsert()
     beforeInsertActions() {
         const defaults = {
