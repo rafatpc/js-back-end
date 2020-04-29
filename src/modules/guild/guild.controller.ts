@@ -10,11 +10,6 @@ export class GuildController {
 
     @Get(':name')
     get(@Param('name') name): Promise<Guild> {
-        return this.guildService.findOne(name, [
-            'G_Name',
-            'G_Master',
-            'G_Score',
-            'G_Mark'
-        ]);
+        return this.guildService.findOne(name);
     }
 }
