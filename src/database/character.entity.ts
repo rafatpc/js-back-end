@@ -2,6 +2,7 @@ import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
 import { GuildMember } from './guild-member.entity';
 import { MasterSkillTree } from './master-skill-tree.entity';
+import { DecodedInventory } from 'src/types/character.types';
 
 @Entity()
 export class Character {
@@ -53,11 +54,12 @@ export class Character {
         transformer: {
             to: items => items,
             from: items => {
-                return new Inventory(items);
+                const InventoryData = new Inventory(items);
+                return InventoryData.toJSON();
             }
         }
     })
-    Inventory: Inventory;
+    Inventory: DecodedInventory;
 
     @Column({ type: 'varbinary', length: 60 })
     MagicList: Buffer;

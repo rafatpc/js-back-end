@@ -11,11 +11,7 @@ export class CharacterService {
         private characterRepository: Repository<Character>
     ) { }
 
-    findAll(): Promise<Character[]> {
-        return this.characterRepository.find();
-    }
-
-    findOne(name: string, select?: Array<string>): Promise<Character> {
+    findOne(name: string, select?: string[]): Promise<Character> {
         return this.characterRepository.findOne(name, {
             select: select as any[],
             relations: ['Guild', 'Master']

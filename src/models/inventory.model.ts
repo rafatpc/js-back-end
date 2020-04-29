@@ -1,6 +1,7 @@
 import { Item } from './item.model';
 import { Exclude, Expose } from 'class-transformer';
 import { Storage } from './storage.model';
+import { DecodedInventory } from 'src/types/character.types';
 
 @Exclude()
 export class Inventory extends Storage {
@@ -15,5 +16,12 @@ export class Inventory extends Storage {
 
         this.Equipped = this.Items.splice(0, 12);
         this.Storage = this.Items;
+    }
+
+    toJSON(): DecodedInventory {
+        return {
+            Equipped: this.Equipped.map(Item => Item.toJSON()).filter(Item => Item !== null),
+            Storage: this.Storage.map(Item => Item.toJSON()).filter(Item => Item !== null)
+        };
     }
 }
