@@ -21,7 +21,7 @@ export class GuildService {
                 'Guild.G_Master',
                 'Guild.G_Score',
                 'Guild.G_Mark',
-                'GuildMember.G_Level',
+                'GuildMember.G_Status',
                 'Character.Name',
                 'Character.Class'
             ])

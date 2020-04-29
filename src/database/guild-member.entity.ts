@@ -15,5 +15,5 @@ export class GuildMember {
     G_Name: Guild
 
     @Column({ type: 'tinyint' })
-    G_Level: number;
+    G_Status: number;
 }
