@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn, JoinColumn, OneToMany, } from 'typeorm';
-import { Items } from './items';
+import { Items } from './items.entity';
 
 @Entity('DPWebShop_Category')
 export class Category {

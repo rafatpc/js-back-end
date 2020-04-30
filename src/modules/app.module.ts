@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { UserModule } from './user/user.module';
 import { CharacterModule } from './character/character.module';
 import { GuildModule } from './guild/guild.module';
 import { RankingsModule } from './rankings/rankings.module';
+import { ConfigModule } from './config/config.module';
 
 @Module({
     imports: [
@@ -11,7 +13,8 @@ import { RankingsModule } from './rankings/rankings.module';
         UserModule,
         CharacterModule,
         GuildModule,
-        RankingsModule
+        RankingsModule,
+        ConfigModule
     ]
 })
 export class AppModule { }

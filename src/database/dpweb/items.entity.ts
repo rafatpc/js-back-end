@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, JoinColumn, OneToOne } from 'typeorm';
+import { SetItems } from './set-items.entity';
+import { Transform } from 'class-transformer';
+import { Skills } from './skills.entity';
 
 @Entity('DPWebShop_Items')
 export class Items {
@@ -16,9 +19,6 @@ export class Items {
 
     @Column({ type: 'int' })
     Id: number;
-
-    @Column({ type: 'int' })
-    Skill: number;
 
     @Column({ type: 'int' })
     X: number;
@@ -76,4 +76,14 @@ export class Items {
 
     @Column({ type: 'int' })
     Summoner: number;
+
+    @OneToOne(() => SetItems, { eager: true })
+    @JoinColumn({ name: 'Id', referencedColumnName: 'Id' })
+    @JoinColumn({ name: 'Type', referencedColumnName: 'Type' })
+    @Transform((Data: SetItems) => [Data.Set1?.Name, Data.Set2?.Name])
+    Ancient: SetItems
+
+    @OneToOne(() => Skills, Skill => Skill.Id, { eager: true })
+    @JoinColumn({ name: 'Skill' })
+    Skill: number;
 }
