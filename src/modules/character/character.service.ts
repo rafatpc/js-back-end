@@ -21,5 +21,16 @@ export class CharacterService {
     async exists(name: string): Promise<boolean> {
         return !!(await this.findOne(name));
     }
-}
 
+    isOnline(Name: string): Promise<boolean> {
+        return this.characterRepository
+            .createQueryBuilder('Character')
+            .leftJoin('AccountCharacter', 'AC', 'AC.GameIDC = Character.Name')
+            .leftJoin('MEMB_STAT', 'MS', 'AC.Id = MS.memb___id')
+            .select('Character.Name')
+            .where('Character.Name = :Name', { Name })
+            .andWhere('MS.ConnectStat = 1')
+            .getOne()
+            .then(result => !!result);
+    }
+}

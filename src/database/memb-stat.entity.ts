@@ -24,7 +24,7 @@ export class MEMB_STAT {
     @Column({ type: 'int' })
     OnlineHours: number;
 
-    @OneToOne(() => AccountCharacter, character => character.Id)
+    @OneToOne(() => AccountCharacter, AC => AC.Id)
     @JoinColumn({ name: 'memb___id' })
     Account: AccountCharacter
 }

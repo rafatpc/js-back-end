@@ -12,23 +12,15 @@ export class GuildService {
     ) { }
 
     findOne(name: string, select?: Array<string>): Promise<Guild> {
-        return this.guildRepository
-            .createQueryBuilder('Guild')
-            .leftJoinAndSelect('Guild.G_Members', 'GuildMember')
-            .leftJoinAndMapOne('GuildMember.Character', 'Character', 'Character', 'GuildMember.Name = Character.Name')
-            .select(select || [
-                'Guild.G_Name',
-                'Guild.G_Master',
-                'Guild.G_Score',
-                'Guild.G_Mark',
-                'GuildMember.G_Status',
-                'Character.Name',
-                'Character.Class'
-            ])
-            .where({
-                'G_Name': name
-            })
-            .getOne();
+        return this.guildRepository.findOne(name, {
+            select: select as any || [
+                'G_Name',
+                'G_Master',
+                'G_Score',
+                'G_Mark',
+            ],
+            relations: ['G_Members', 'G_Members.Name']
+        });
     }
 
     async exists(name: string): Promise<boolean> {

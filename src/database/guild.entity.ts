@@ -1,4 +1,5 @@
 import { Entity, PrimaryColumn, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+
 import { GuildMember } from './guild-member.entity';
 
 @Entity()
@@ -46,6 +47,7 @@ export class Guild {
     G_Members: GuildMember[];
 }
 
+// TODO: G_Rival/G_Union is 0 by default...causing all guilds to be rivals/alliances: D
 @Entity('Guild')
 export class Alliance {
     @ManyToOne(() => Guild, guild => guild.G_Union)
@@ -59,7 +61,6 @@ export class Alliance {
     G_Master: string;
 }
 
-// TODO: G_Rival is 0 by default...causing all guilds to be rival: D
 @Entity('Guild')
 export class Rivalry {
     @ManyToOne(() => Guild, guild => guild.G_Rival)

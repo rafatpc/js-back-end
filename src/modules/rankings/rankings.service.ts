@@ -33,7 +33,7 @@ export class RankingsService {
                 'Honor',
                 'MapNumber'
             ],
-            relations: ['Guild'],
+            relations: ['Guild', 'Online'],
             order: {
                 'GrandResets': 'DESC',
                 'Resets': 'DESC',

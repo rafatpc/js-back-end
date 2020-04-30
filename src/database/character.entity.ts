@@ -2,11 +2,13 @@ import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 import { Inventory } from '../models/inventory.model'
 import { GuildMember } from './guild-member.entity';
 import { MasterSkillTree } from './master-skill-tree.entity';
-import { DecodedInventory } from 'src/types/character.types';
+import { Transform, Type, Exclude } from 'class-transformer';
+import { CharacterStatus } from './character-status.entity';
 
 @Entity()
 export class Character {
     @Column({ type: 'nvarchar', length: 10 })
+    @Exclude()
     AccountID: string
 
     @PrimaryColumn({ type: 'nvarchar', length: 50 })
@@ -53,31 +55,14 @@ export class Character {
         length: 760,
         transformer: {
             to: items => items,
-            from: items => {
-                const InventoryData = new Inventory(items);
-                return InventoryData.toJSON();
-            }
+            from: items => new Inventory(items)
         }
     })
-    Inventory: DecodedInventory;
-
-    @Column({ type: 'varbinary', length: 60 })
-    MagicList: Buffer;
+    @Transform((Data: Inventory) => Data.toJSON())
+    Inventory: Inventory;
 
     @Column({ type: 'int' })
     Money: number;
-
-    @Column({ type: 'real' })
-    Life: number;
-
-    @Column({ type: 'real' })
-    MaxLife: number;
-
-    @Column({ type: 'real' })
-    Mana: number;
-
-    @Column({ type: 'real' })
-    MaxMana: number;
 
     @Column({ type: 'smallint' })
     MapNumber: number;
@@ -88,35 +73,37 @@ export class Character {
     @Column({ type: 'smallint' })
     MapPosY: number;
 
-    @Column({ type: 'tinyint' })
-    MapDir: number;
-
     @Column({ type: 'int' })
     PkCount: number;
 
     @Column({ type: 'int' })
     PkLevel: number;
 
-    @Column({ type: 'smalldatetime' })
-    MDate: Date;
-
-    @Column({ type: 'smalldatetime' })
-    LDate: Date;
-
     @Column({ type: 'tinyint' })
     CtlCode: number;
 
-    @Column({ type: 'tinyint' })
-    DbVersion: number;
-
-    @Column({ type: 'varbinary', length: 50 })
-    Quest: Buffer;
-
     @OneToOne(() => GuildMember)
     @JoinColumn({ name: 'Name' })
-    Guild: GuildMember
+    Guild: GuildMember;
 
     @OneToOne(() => MasterSkillTree)
     @JoinColumn({ name: 'Name' })
-    Master: MasterSkillTree
+    @Transform((Data: MasterSkillTree) => ({
+        Level: Data.MasterLevel,
+        Points: Data.MasterPoint
+    }))
+    Master: MasterSkillTree;
+
+    @OneToOne(() => CharacterStatus, { eager: true })
+    @JoinColumn({ name: 'Name' })
+    @Transform(Character.isOnline)
+    Online: CharacterStatus;
+
+    static isOnline(Data: CharacterStatus) {
+        if (!Data) {
+            return false;
+        }
+
+        return Data.Stat.ConnectStat === 1;
+    }
 }
