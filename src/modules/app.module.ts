@@ -6,6 +6,7 @@ import { CharacterModule } from './character/character.module';
 import { GuildModule } from './guild/guild.module';
 import { RankingsModule } from './rankings/rankings.module';
 import { ConfigModule } from './config/config.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
     imports: [
@@ -14,7 +15,8 @@ import { ConfigModule } from './config/config.module';
         CharacterModule,
         GuildModule,
         RankingsModule,
-        ConfigModule
+        ConfigModule,
+        AccountModule
     ]
 })
 export class AppModule { }
