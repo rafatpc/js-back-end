@@ -80,10 +80,19 @@ export class Items {
     @OneToOne(() => SetItems, { eager: true })
     @JoinColumn({ name: 'Id', referencedColumnName: 'Id' })
     @JoinColumn({ name: 'Type', referencedColumnName: 'Type' })
-    @Transform((Data: SetItems) => [Data.Set1?.Name, Data.Set2?.Name])
+    @Transform((Data: SetItems) => {
+        if (!Data) return null;
+        return [
+            Data.Set1?.Name,
+            Data.Set2?.Name
+        ];
+    })
     Ancient: SetItems
 
     @OneToOne(() => Skills, Skill => Skill.Id, { eager: true })
     @JoinColumn({ name: 'Skill' })
-    Skill: number;
+    @Transform((Data: Skills) => {
+        return Data?.Id > 0 ? Data : null;
+    })
+    Skill: Skills;
 }
