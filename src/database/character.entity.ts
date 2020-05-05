@@ -89,8 +89,8 @@ export class Character {
     @OneToOne(() => MasterSkillTree)
     @JoinColumn({ name: 'Name' })
     @Transform((Data: MasterSkillTree) => ({
-        Level: Data.MasterLevel,
-        Points: Data.MasterPoint
+        Level: Data?.MasterLevel,
+        Points: Data?.MasterPoint
     }))
     Master: MasterSkillTree;
 

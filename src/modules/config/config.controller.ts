@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ConfigService } from './config.service';
-import { Items } from 'src/database/dpweb/items.entity';
+import { ItemConfig } from './config.models';
 
 @Controller('config')
 export class ConfigController {
@@ -9,13 +9,10 @@ export class ConfigController {
     ) { }
 
     @Get('items')
-    items(): Promise<Items[]> {
-        return this.configService.getItems();
-    }
+    async items(): Promise<ItemConfig> {
+        const Items = await this.configService.getItems();
+        const Sockets = await this.configService.getSockets();
 
-    @Get('test')
-    test(): any {
-        return this.configService.getItem();
-        // return this.configService.getSetItems();
+        return new ItemConfig(Items, Sockets);
     }
 }

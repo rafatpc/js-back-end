@@ -5,10 +5,12 @@ import { Connection, Repository } from 'typeorm';
 import { Items } from 'src/database/dpweb/items.entity';
 import { Sets } from 'src/database/dpweb/sets.entity';
 import { SetItems } from 'src/database/dpweb/set-items.entity';
+import { Sockets } from 'src/database/dpweb/sockets.entity';
 
 @Injectable()
 export class ConfigService {
     private items: Repository<Items>;
+    private sockets: Repository<Sockets>;
     private sets: Repository<Sets>;
     private setItems: Repository<SetItems>;
 
@@ -17,6 +19,7 @@ export class ConfigService {
         private connection: Connection
     ) {
         this.items = this.connection.getRepository(Items);
+        this.sockets = this.connection.getRepository(Sockets);
         this.sets = this.connection.getRepository(Sets);
         this.setItems = this.connection.getRepository(SetItems);
     }
@@ -25,13 +28,8 @@ export class ConfigService {
         return this.items.find();
     }
 
-    getItem(): Promise<Items> {
-        return this.items.findOne({
-            where: {
-                Type: 8,
-                Id: 1
-            }
-        });
+    getSockets(): Promise<Sockets[]> {
+        return this.sockets.find();
     }
 
     getSets(): Promise<Sets[]> {

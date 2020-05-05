@@ -1,3 +1,6 @@
+import { Items } from "src/database/dpweb/items.entity";
+import { Sockets } from "src/database/dpweb/sockets.entity";
+
 export type RawHexData = {
     id: number;
     options: number;

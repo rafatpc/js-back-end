@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryColumn, JoinColumn, OneToOne } from 'typeorm';
 import { SetItems } from './set-items.entity';
 import { Transform } from 'class-transformer';
 import { Skills } from './skills.entity';
+import { SocketItems } from './socket-items.entity';
 
 @Entity('DPWebShop_Items')
 export class Items {
@@ -88,6 +89,12 @@ export class Items {
         ];
     })
     Ancient: SetItems
+
+    @OneToOne(() => SocketItems, { eager: true })
+    @JoinColumn({ name: 'Id', referencedColumnName: 'Id' })
+    @JoinColumn({ name: 'Type', referencedColumnName: 'Type' })
+    @Transform((Data: SocketItems) => !!Data)
+    Socket: boolean
 
     @OneToOne(() => Skills, Skill => Skill.Id, { eager: true })
     @JoinColumn({ name: 'Skill' })
