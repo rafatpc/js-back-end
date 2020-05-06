@@ -7,10 +7,14 @@ import { GuildModule } from './guild/guild.module';
 import { RankingsModule } from './rankings/rankings.module';
 import { ConfigModule } from './config/config.module';
 import { AccountModule } from './account/account.module';
+import { AuthModule } from './auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(),
+        SharedModule,
+        AuthModule,
         UserModule,
         CharacterModule,
         GuildModule,

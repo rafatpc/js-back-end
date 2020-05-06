@@ -1,8 +1,11 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { AccountService } from './account.service';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
 import { CharacterService } from '../character/character.service';
+import { AccountService } from './account.service';
 
 @Controller('account')
+@UseGuards(AuthGuard('jwt'))
 export class AccountController {
     constructor(
         private accountService: AccountService,

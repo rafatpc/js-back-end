@@ -1,4 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
 import { Character } from 'src/database/character.entity';
 import { CharacterService } from './character.service';
 
@@ -22,6 +24,7 @@ export class CharacterController {
     }
 
     @Get(':name/extended')
+    @UseGuards(AuthGuard('jwt'))
     extended(@Param('name') name): Promise<Character> {
         return this.characterService.findOne(name);
     }
