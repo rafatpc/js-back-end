@@ -3,7 +3,7 @@ import { JWT_SECRET, JWT_MAX_AGE } from '../../config';
 import { Injectable } from '@nestjs/common';
 import { sign as jwtSign } from 'jsonwebtoken';
 
-import { LoginDto } from '../user/dto/login.dto';
+import { LoginDto } from '../user/user.dto';
 import { UserService } from '../user/user.service';
 
 @Injectable()

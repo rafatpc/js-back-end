@@ -4,8 +4,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { MEMB_INFO } from '../../database/memb-info.entity';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from './user.service';
-import { LoginDto } from './dto/login.dto';
-import { CreateDto } from './dto/create.dto';
+import { LoginDto } from './user.dto';
+import { CreateDto } from './user.dto';
 import { User } from './user.decorator';
 
 @Controller('user')

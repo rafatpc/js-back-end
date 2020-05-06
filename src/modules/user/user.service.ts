@@ -6,9 +6,9 @@ import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 import { UserRepository } from './user.repository';
 import { MEMB_INFO } from '../../database/memb-info.entity'
-import { LoginDto } from './dto/login.dto';
-import { CreateDto } from './dto/create.dto';
-import { SearchDto } from './dto/search.dto';
+import { LoginDto } from './user.dto';
+import { CreateDto } from './user.dto';
+import { SearchDto } from './user.dto';
 
 @Injectable()
 export class UserService {
