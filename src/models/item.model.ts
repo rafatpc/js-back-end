@@ -34,10 +34,13 @@ export class Item {
         const addOption = isBitOn(excellentRaw, 6) ? 4 : 0;
         const option = (options & 0b11) + addOption;
 
-        // Transform Excellent & Socket options
+        // Transform Excellent options
         const excellent: ExcellentOption[] = [0, 1, 2, 3, 4, 5]
             .map(isBitOn.bind(null, excellentRaw));
-        const sockets = socketsRaw.map(this.decodeSocket)
+        // Transform Socket options
+        const lastSocketIndex = socketsRaw.findIndex(socket => socket === 0);
+        const activeSockets = socketsRaw.slice(0, lastSocketIndex === -1 ? 5 : lastSocketIndex);
+        const sockets = activeSockets.map(this.decodeSocket);
 
         return {
             slot: this.slot,
@@ -78,11 +81,11 @@ export class Item {
     }
 
     private decodeSocket(value): SocketOption | null {
-        if (value === 0) {
+        if (value === 0 || value === 255) {
             return null;
         }
 
-        if (value === 255) {
+        if (value === 254) {
             return { type: null, level: null };
         }
 
