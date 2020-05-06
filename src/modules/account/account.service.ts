@@ -12,17 +12,13 @@ export class AccountService {
     private user: AccountCharacter;
 
     constructor(
-        @InjectConnection()
-        private connection: Connection
+        @InjectConnection() private connection: Connection
     ) {
         this.accounts = this.connection.getRepository(AccountCharacter);
         this.characters = this.connection.getRepository(Character);
     }
 
-    getCharacters() {
-        // TODO: It's obvious...
-        const currentUsername: string = 'rafa';
-
+    getCharacters(user: string) {
         return this.accounts.createQueryBuilder('Account')
             .leftJoinAndMapMany('Account.Characters', 'Character', 'Character', 'Account.Id=Character.AccountID')
             .select([
@@ -31,22 +27,17 @@ export class AccountService {
                 'Character.Name',
                 'Character.Class',
             ])
-            .where({
-                'Id': currentUsername
-            })
-            .getOne()
+            .where({ 'Id': user })
+            .getOne();
     }
 
-    getCharacter(name: string) {
-        // TODO: It's obvious...
-        const currentUsername: string = 'rafa';
-
+    getCharacter(user: string, character: string) {
         return this.characters.createQueryBuilder('Character')
             .where('Name = :Name')
             .andWhere('AccountId = :User')
             .setParameters({
-                User: currentUsername,
-                Name: name
+                User: user,
+                Name: character
             })
             .getOne()
     }

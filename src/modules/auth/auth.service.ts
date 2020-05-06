@@ -11,9 +11,8 @@ export class AuthService {
     constructor(private userService: UserService) { }
 
     async validateUser({ username }: LoginDto) {
-        return this.userService.login({
-            username: 'rafa',
-            password: 'password'
+        return this.userService.findOne({
+            username: username
         } as LoginDto);
     }
 

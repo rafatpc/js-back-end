@@ -1,11 +1,9 @@
-import { JWT_SECRET, JWT_MAX_AGE } from '../../config';
-
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as jwt from 'jsonwebtoken';
-import { UserRepository } from './user.repository';
+
 import { MEMB_INFO } from '../../database/memb-info.entity'
+import { UserRepository } from './user.repository';
 import { LoginDto } from './user.dto';
 import { CreateDto } from './user.dto';
 import { SearchDto } from './user.dto';
@@ -16,10 +14,6 @@ export class UserService {
         @InjectRepository(UserRepository)
         private usersRepository: Repository<MEMB_INFO>
     ) { }
-
-    findAll(): Promise<MEMB_INFO[]> {
-        return this.usersRepository.find();
-    }
 
     findOne({ username: memb___id, email: mail_addr }: Partial<SearchDto>): Promise<MEMB_INFO> {
         const where = [
@@ -57,12 +51,6 @@ export class UserService {
         }
 
         return user;
-    }
-
-    generateToken({ username }: LoginDto) {
-        return jwt.sign({
-            username: username
-        }, JWT_SECRET, { expiresIn: JWT_MAX_AGE });
     }
 }
 
