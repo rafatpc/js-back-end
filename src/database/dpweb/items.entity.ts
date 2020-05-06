@@ -22,6 +22,9 @@ export class Items {
     Id: number;
 
     @Column({ type: 'int' })
+    Slot: number;
+
+    @Column({ type: 'int' })
     X: number;
 
     @Column({ type: 'int' })
