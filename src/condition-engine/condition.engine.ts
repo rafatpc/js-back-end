@@ -2,15 +2,15 @@ import { NotAcceptableException, NotFoundException } from '@nestjs/common';
 
 import { ICondition } from './interfaces/ICondition';
 import { IConditionConfig } from './interfaces/IConditionConfig';
+import { IConditionMap } from './interfaces/IConditionMap';
 import { IRequirement } from './interfaces/IRequirement';
-import { IRrequirementError } from './interfaces/IRequirementError';
 
 import Conditions from './config';
 
 export class ConditionEngine {
     private config: IConditionConfig[];
     private providers: any;
-    private conditions: ICondition[];
+    private conditions: IConditionMap[];
 
     constructor(config: IConditionConfig[], providers) {
         // TODO: Get config from configKey
@@ -18,20 +18,11 @@ export class ConditionEngine {
         this.config = config;
         this.providers = providers;
 
-        this.createConditions();
+        this.configure();
     }
 
-    validate() {
-        const errors: IRrequirementError[] = this.conditions.reduce((errors, condition) => {
-            // TODO: Check if IConditionConsumes is implemented
-            condition.consume(this.providers);
-            condition.fullfil();
-
-            return [
-                ...errors,
-                ...condition.getErrors()
-            ]
-        }, []);
+    satisfy(): boolean {
+        const errors = this.check();
 
         if (errors.length !== 0) {
             throw new NotAcceptableException({ message: errors, name: 'ConditionException' });
@@ -40,19 +31,38 @@ export class ConditionEngine {
         return true;
     }
 
-    private createConditions() {
+    check(): IRequirement[] {
+        return this.conditions.reduce((errors, condition) => {
+            const { instance, type } = condition;
+
+            // TODO: Check if IConditionConsumes is implemented
+            instance.consume(this.providers);
+            instance.check();
+
+            return [
+                ...errors,
+                {
+                    type,
+                    satisfied: instance.getSatisfied(),
+                    lacking: instance.getLacking()
+                }
+            ]
+        }, []);
+    }
+
+    private configure() {
         this.conditions = this.config.map((config: IConditionConfig) => {
             const { type, requirements } = config;
-            const condition = this.getCondition(type, requirements);
+            const instance = this.instantiate(type, requirements);
 
             // TODO: Check if IConditionConfigurable is implemented
-            condition.configure(requirements);
+            instance.configure(requirements);
 
-            return condition;
+            return { type, instance };
         });
     }
 
-    private getCondition(type: string, requirements: IRequirement[]): ICondition {
+    private instantiate(type: string, requirements: IRequirement[]): ICondition {
         if (!Conditions[type]) {
             throw new NotFoundException(`Cannot find condition ${type}`);
         }

@@ -1,9 +1,9 @@
 import { IRequirement } from './IRequirement';
-import { IRrequirementError } from './IRequirementError';
 
 export interface ICondition {
-    fullfil(): boolean;
-    getErrors(): IRrequirementError[];
+    check(): boolean;
+    getLacking(): IRequirement[] | boolean;
+    getSatisfied(): IRequirement[] | boolean;
     // TODO: Remove those from here!
     configure(config: IRequirement[]);
     consume(providers: any);

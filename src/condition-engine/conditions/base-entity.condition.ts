@@ -1,11 +1,11 @@
 import { ICondition } from '../interfaces/ICondition';
 import { IRequirement } from '../interfaces/IRequirement';
-import { IRrequirementError } from '../interfaces/IRequirementError';
 
 import { compare } from '../compare.engine';
 
 export abstract class BaseEntityFieldCondition implements Partial<ICondition> {
-    protected failed: IRrequirementError[] = [];
+    protected lacking: IRequirement[] = [];
+    protected satisfied: IRequirement[] = [];
     protected requirements: IRequirement[];
     protected entity: any;
 
@@ -13,21 +13,28 @@ export abstract class BaseEntityFieldCondition implements Partial<ICondition> {
         this.requirements = requirements;
     }
 
-    fullfil() {
-        return this.requirements.reduce((fullfil, requirement) => {
+    check() {
+        return this.requirements.reduce((satisfy, requirement) => {
             const { type, operator, value } = requirement;
             const actual = this.entity[type];
-            const requirementFullfiled = compare(actual, operator, value);
+            const satisfied = compare(actual, operator, value);
+            const data = { ...requirement, actual };
 
-            if (!requirementFullfiled) {
-                this.failed.push({ type, actual, value });
+            if (!satisfied) {
+                this.lacking.push(data);
+            } else {
+                this.satisfied.push(data);
             }
 
-            return fullfil && requirementFullfiled;
+            return satisfy && satisfied;
         }, true);
     }
 
-    getErrors(): IRrequirementError[] {
-        return this.failed;
+    getLacking(): IRequirement[] {
+        return this.lacking;
+    }
+
+    getSatisfied(): IRequirement[] {
+        return this.satisfied;
     }
 }

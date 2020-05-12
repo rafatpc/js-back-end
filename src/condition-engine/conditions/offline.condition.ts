@@ -1,12 +1,12 @@
-import { ICondition } from '../interfaces/ICondition';
-import { IRequirement } from '../interfaces/IRequirement';
-import { IRrequirementError } from '../interfaces/IRequirementError';
-
-import { MEMB_STAT } from 'src/database/memb-stat.entity';
 import { BadRequestException } from '@nestjs/common';
 
+import { MEMB_STAT } from 'src/database/memb-stat.entity';
+
+import { ICondition } from '../interfaces/ICondition';
+import { IRequirement } from '../interfaces/IRequirement';
+
 export class OfflineCondition implements ICondition {
-    private failed: IRrequirementError[] = [];
+    private satisfied: boolean = false;
     private requirements: IRequirement[];
     private entity: any;
 
@@ -24,17 +24,15 @@ export class OfflineCondition implements ICondition {
         this.requirements = requirements;
     }
 
-    fullfil() {
-        const isOffline = this.entity.ConnectStat === 0;
-
-        if (!isOffline) {
-            this.failed.push({ type: 'ConnectStat', actual: 1, value: 0 });
-        }
-
-        return isOffline;
+    check() {
+        return this.satisfied = this.entity.ConnectStat === 0;
     }
 
-    getErrors(): IRrequirementError[] {
-        return this.failed;
+    getLacking(): boolean {
+        return !this.satisfied;
+    }
+
+    getSatisfied(): boolean {
+        return this.satisfied;
     }
 }

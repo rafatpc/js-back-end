@@ -13,8 +13,7 @@ export class RankingsService {
     private guilds: Repository<Guild>;
 
     constructor(
-        @InjectConnection()
-        private connection: Connection
+        @InjectConnection() private connection: Connection
     ) {
         this.characters = this.connection.getRepository(Character);
         this.status = this.connection.getRepository(MEMB_STAT);
